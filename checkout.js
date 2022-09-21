@@ -48,17 +48,32 @@ productsDiv.addEventListener("click", (event)=>{
     }
 });
 
-const calculateProductPrice = (clickedBtn) =>{
-    const productInfoDiv = clickedBtn.parentElement.parentElement;
+const calculateProductPrice = (btn) =>{
+    const productInfoDiv = btn.parentElement.parentElement;
     //console.log(productInfoDiv);
     const price = productInfoDiv.querySelector(".product-price strong").innerText;
-    alert(price);
-
+    const quantity = productInfoDiv.querySelector(".quantity").innerText;
+    const productTotalDiv = productInfoDiv.querySelector(".product-line-price");
+    productTotalDiv.innerText = (price * quantity).toFixed(2);
+    //alert(quantity);
 
 }
 
 const calculateCartPrice = () =>{
-    
+    const productsTotalPricesDivs = document.querySelectorAll(".product-line-price");
+    //foreach ==> NodeList, Array
+    //const productsTotalPricesDivs = [...document.getElementsByClassName("product-line-price")];
+
+    let subtotal = 0;
+    productsTotalPricesDivs.forEach(div =>{
+        subtotal += parseFloat(div.innerText);
+    });
+    //console.log(subtotal);
+    const taxPrice = subtotal * localStorage.getItem("taxRate");
+
+    const shippingPrice = (subtotal > 0 && subtotal < localStorage.getItem("shippingFreePrice") ? localStorage.getItem("shippingPrice") : 0)
+
+    console.log(shippingPrice);
 }
 
 
